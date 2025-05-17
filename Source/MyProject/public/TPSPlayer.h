@@ -26,7 +26,23 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	//Move
+public:
+	// 좌우 회전 입력 처리
+	void Turn(float value);
+	// 상하 회전 입력 처리
+	void LookUp(float value);
+
+	// 좌우 이동 입력 이벤트 처리 함수
+	void InputHorizontal(float value);
+	// 상하 이동 입력 이벤트 처리 함수
+	void InputVertical(float value);
+
+	// 이동 처리 함수
+	void Move();
+	// 점프 입력 이벤트 처리 함수
+	void InputJump();
+
+	//Camera
 public:
 	// 카메라 부모 스프링암 컴포넌트
 	UPROPERTY(VisibleAnywhere, Category = "Camera")
@@ -34,4 +50,12 @@ public:
 	// 카메라 컴포넌트
 	UPROPERTY(VisibleAnywhere, Category = "Camera")
 	class UCameraComponent* tpsCamComp;
+
+	// Move
+public:
+	// 이동 속도
+	UPROPERTY(EditAnywhere, Category = "PlayerSetting")
+	float walkSpeed = 600;
+	// 이동 방향
+	FVector direction;
 };

@@ -26,10 +26,14 @@ ATPSPlayer::ATPSPlayer()
 		springArmComp->SetupAttachment(RootComponent);
 		springArmComp->SetRelativeLocation(FVector(0, 70, 90));
 		springArmComp->TargetArmLength = 400;
+		springArmComp->bUsePawnControlRotation = true;
 
 		// 카메라 컴포넌트 생성
 		tpsCamComp = CreateDefaultSubobject<UCameraComponent>(TEXT("TpsCamComp"));
 		tpsCamComp->SetupAttachment(springArmComp);
+		tpsCamComp->bUsePawnControlRotation = false;
+
+		bUseControllerRotationYaw = true;
 	}
 }
 
@@ -45,6 +49,8 @@ void ATPSPlayer::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	// 플레이어 이동
+	Move();
 }
 
 // Called to bind functionality to input
@@ -52,5 +58,48 @@ void ATPSPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+	// 마우스 카메라 회전 이벤트 처리 함수 바인딩
+	PlayerInputComponent->BindAxis(TEXT("Turn"), this, &ATPSPlayer::Turn);
+	PlayerInputComponent->BindAxis(TEXT("LookUp"), this, &ATPSPlayer::LookUp);
+
+	// 좌우 입력 이벤트 처리 함수 바인딩
+	PlayerInputComponent->BindAxis(TEXT("Horizontal"), this, &ATPSPlayer::InputHorizontal);
+	// 상하 입력 이벤트 처리 함수 바인딩
+	PlayerInputComponent->BindAxis(TEXT("Vertical"), this, &ATPSPlayer::InputVertical);
+	// 점프 입력 이벤트 처리 함수 바인딩
+	PlayerInputComponent->BindAction(TEXT("Jump"), IE_Pressed, this, &ATPSPlayer::Jump);
+}
+
+void ATPSPlayer::Turn(float value)
+{
+	AddControllerYawInput(value);
+}
+
+void ATPSPlayer::LookUp(float value)
+{
+	AddControllerPitchInput(value);
+}
+
+void ATPSPlayer::InputHorizontal(float value)
+{
+	direction.Y = value;
+}
+
+void ATPSPlayer::InputVertical(float value)
+{
+	direction.X = value;
+}
+
+void ATPSPlayer::Move()
+{
+	// 플레이어 이동 처리
+	direction = FTransform(GetControlRotation()).TransformVector(direction);
+	AddMovementInput(direction);
+	direction = FVector::ZeroVector;
+}
+
+void ATPSPlayer::InputJump()
+{
+	Jump();
 }
 
