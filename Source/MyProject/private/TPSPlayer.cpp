@@ -12,7 +12,7 @@ ATPSPlayer::ATPSPlayer()
 	PrimaryActorTick.bCanEverTick = true;
 
 	// 1.½ºÄÌ·¹Å» ¸Þ½¬ ºÒ·¯¿À±â
-	ConstructorHelpers::FObjectFinder<USkeletalMesh> tempMesh(TEXT("/Script/Engine.SkeletalMesh'/Game/Characters/Mannequin_UE4/Meshes/SK_Mannequin.SK_Mannequin'"));
+	ConstructorHelpers::FObjectFinder<USkeletalMesh> tempMesh(TEXT("/Script/Engine.SkeletalMesh'/Game/ParagonWraith/Characters/Heroes/Wraith/Meshes/Wraith.Wraith'"));
 
 	if (tempMesh.Succeeded())
 	{
