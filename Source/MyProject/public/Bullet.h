@@ -23,4 +23,13 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	// 이동 컴포넌트
+	UPROPERTY(VisibleAnywhere, Category = "Movement")
+	class UProjectileMovementComponent* movementComp;
+	// 충돌 컴포넌트
+	UPROPERTY(VisibleAnywhere, Category = "Collision")
+	class USphereComponent* collisionComp;
+	// 외관 컴포넌트
+	UPROPERTY(VisibleAnywhere, Category = "BodyMesh")
+	class UStaticMeshComponent* bodyMeshComp;
 };
