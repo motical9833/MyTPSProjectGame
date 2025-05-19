@@ -4,6 +4,7 @@
 #include "TPSPlayer.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
+#include "Bullet.h"
 
 // Sets default values
 ATPSPlayer::ATPSPlayer()
@@ -68,6 +69,9 @@ void ATPSPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 	PlayerInputComponent->BindAxis(TEXT("Vertical"), this, &ATPSPlayer::InputVertical);
 	// 점프 입력 이벤트 처리 함수 바인딩
 	PlayerInputComponent->BindAction(TEXT("Jump"), IE_Pressed, this, &ATPSPlayer::Jump);
+	// 총알 발사 이벤트 처리 함수 바인딩
+	PlayerInputComponent->BindAction(TEXT("Fire"), IE_Pressed, this, &ATPSPlayer::InputFire);
+
 }
 
 void ATPSPlayer::Turn(float value)
@@ -103,3 +107,13 @@ void ATPSPlayer::InputJump()
 	Jump();
 }
 
+void ATPSPlayer::InputFire()
+{
+	if (!bulletFactory)
+	{
+		return;
+	}
+
+	FTransform firePosition = GetMesh()->GetSocketTransform(TEXT("FirePosition"));
+	GetWorld()->SpawnActor<ABullet>(bulletFactory, firePosition);
+}

@@ -26,6 +26,7 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	// Move function
 public:
 	// 좌우 회전 입력 처리
 	void Turn(float value);
@@ -42,7 +43,13 @@ public:
 	// 점프 입력 이벤트 처리 함수
 	void InputJump();
 
-	//Camera
+	// Attack function
+public:
+	void InputFire();
+
+
+
+	//Camera variable
 public:
 	// 카메라 부모 스프링암 컴포넌트
 	UPROPERTY(VisibleAnywhere, Category = "Camera")
@@ -51,11 +58,18 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = "Camera")
 	class UCameraComponent* tpsCamComp;
 
-	// Move
+	// Move variable
 public:
 	// 이동 속도
 	UPROPERTY(EditAnywhere, Category = "PlayerSetting")
 	float walkSpeed = 600;
 	// 이동 방향
 	FVector direction;
+	
+	// Attack variable
+public:
+
+	// 총알
+	UPROPERTY(EditAnywhere, Category = "BulletFactory")
+	TSubclassOf<class ABullet> bulletFactory;
 };
