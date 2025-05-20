@@ -5,6 +5,8 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Bullet.h"
+#include "BulletPoolManager.h"
+#include "GameFramework/ProjectileMovementComponent.h"
 
 // Sets default values
 ATPSPlayer::ATPSPlayer()
@@ -42,7 +44,26 @@ ATPSPlayer::ATPSPlayer()
 void ATPSPlayer::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	if (!bulletPoolManager && bulletPoolManagerActor)
+	{
+		FTransform spawnTransform = FTransform::Identity;
+		FActorSpawnParameters spawnParams;
+		spawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+
+		// bulletPoolManagerActor로부터 실제 액터 생성
+		bulletPoolManager = GetWorld()->SpawnActor<ABulletPoolManager>(
+			bulletPoolManagerActor,
+			spawnTransform,
+			spawnParams
+		);
+
+		if (bulletPoolManager && bulletFactory)
+		{
+			// 총알 팩토리 설정
+			bulletPoolManager->bulletFactory = bulletFactory;
+		}
+	}
 }
 
 // Called every frame
@@ -109,11 +130,24 @@ void ATPSPlayer::InputJump()
 
 void ATPSPlayer::InputFire()
 {
-	if (!bulletFactory)
-	{
+	if (!bulletPoolManager)
 		return;
+
+	FTransform fireTransform = GetMesh()->GetSocketTransform(TEXT("FirePosition"));
+	ABullet* bullet = bulletPoolManager->GetBullet();
+
+	if (bullet)
+	{
+		bullet->SetActorTransform(fireTransform);
+		bullet->movementComp->Velocity = fireTransform.GetRotation().Vector() * bullet->movementComp->InitialSpeed;
+		bullet->Fire();
 	}
 
-	FTransform firePosition = GetMesh()->GetSocketTransform(TEXT("FirePosition"));
-	GetWorld()->SpawnActor<ABullet>(bulletFactory, firePosition);
+	//if (!bulletFactory)
+	//{
+	//	return;
+	//}
+
+	//FTransform firePosition = GetMesh()->GetSocketTransform(TEXT("FirePosition"));
+	//GetWorld()->SpawnActor<ABullet>(bulletFactory, firePosition);
 }

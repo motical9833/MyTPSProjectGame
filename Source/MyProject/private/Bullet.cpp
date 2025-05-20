@@ -47,7 +47,6 @@ ABullet::ABullet()
 void ABullet::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 // Called every frame
@@ -57,3 +56,15 @@ void ABullet::Tick(float DeltaTime)
 
 }
 
+void ABullet::DisableBullet()
+{
+	SetActorHiddenInGame(true);
+	SetActorTickEnabled(false);
+	SetActorEnableCollision(false);
+	GetWorldTimerManager().ClearTimer(lifeTimerHandle);
+}
+
+void ABullet::Fire()
+{
+	GetWorldTimerManager().SetTimer(lifeTimerHandle, this, &ABullet::DisableBullet, 2.0f, false);
+}

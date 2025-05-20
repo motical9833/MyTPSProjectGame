@@ -23,6 +23,12 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+
+public:
+	void DisableBullet();
+	void Fire();
+
+public:
 	// 이동 컴포넌트
 	UPROPERTY(VisibleAnywhere, Category = "Movement")
 	class UProjectileMovementComponent* movementComp;
@@ -32,4 +38,7 @@ public:
 	// 외관 컴포넌트
 	UPROPERTY(VisibleAnywhere, Category = "BodyMesh")
 	class UStaticMeshComponent* bodyMeshComp;
+
+	// 총알 타이머
+	FTimerHandle lifeTimerHandle;
 };

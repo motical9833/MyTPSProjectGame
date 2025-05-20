@@ -72,4 +72,10 @@ public:
 	// ÃÑ¾Ë
 	UPROPERTY(EditAnywhere, Category = "BulletFactory")
 	TSubclassOf<class ABullet> bulletFactory;
+
+	UPROPERTY(EditAnywhere, Category = "BulletPool")
+	class ABulletPoolManager* bulletPoolManager;
+
+	UPROPERTY(EditAnywhere, Category = "BulletPool")
+	TSubclassOf<class ABulletPoolManager> bulletPoolManagerActor;
 };
