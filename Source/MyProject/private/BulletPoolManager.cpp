@@ -27,9 +27,10 @@ void ABulletPoolManager::BeginPlay()
 	for (int32 i = 0; i < poolSize; i++)
 	{
 		ABullet* newBullet = GetWorld()->SpawnActor<ABullet>(bulletFactory, FVector::ZeroVector, FRotator::ZeroRotator);
-		newBullet->SetActorEnableCollision(false);
-		newBullet->SetActorHiddenInGame(true);
-		newBullet->SetActorTickEnabled(false);
+		newBullet->InitializeBullet();
+		//newBullet->SetActorEnableCollision(false);
+		//newBullet->SetActorHiddenInGame(true);
+		//newBullet->SetActorTickEnabled(false);
 		bulletPool.Add(newBullet);
 	}
 
@@ -48,9 +49,9 @@ ABullet* ABulletPoolManager::GetBullet()
 	{
 		if (!bullet->IsActorTickEnabled())
 		{
-			bullet->SetActorHiddenInGame(false);
-			bullet->SetActorTickEnabled(true);
-			bullet->SetActorEnableCollision(true);
+			//bullet->SetActorHiddenInGame(false);
+			//bullet->SetActorTickEnabled(true);
+			//bullet->SetActorEnableCollision(true);
 			return bullet;
 		}
 	}

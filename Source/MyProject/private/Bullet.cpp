@@ -56,6 +56,13 @@ void ABullet::Tick(float DeltaTime)
 
 }
 
+void ABullet::InitializeBullet()
+{
+	SetActorEnableCollision(false);
+	SetActorHiddenInGame(true);
+	SetActorTickEnabled(false);
+}
+
 void ABullet::DisableBullet()
 {
 	SetActorHiddenInGame(true);
@@ -67,4 +74,7 @@ void ABullet::DisableBullet()
 void ABullet::Fire()
 {
 	GetWorldTimerManager().SetTimer(lifeTimerHandle, this, &ABullet::DisableBullet, 2.0f, false);
+	SetActorHiddenInGame(false);
+	SetActorTickEnabled(true);
+	SetActorEnableCollision(true);
 }

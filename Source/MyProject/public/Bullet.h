@@ -25,6 +25,7 @@ public:
 
 
 public:
+	void InitializeBullet();
 	void DisableBullet();
 	void Fire();
 
