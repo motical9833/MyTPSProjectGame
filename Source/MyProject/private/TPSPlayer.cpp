@@ -7,6 +7,7 @@
 #include "Bullet.h"
 #include "BulletPoolManager.h"
 #include "GameFramework/ProjectileMovementComponent.h"
+#include "PlayerMove.h"
 
 // Sets default values
 ATPSPlayer::ATPSPlayer()
@@ -37,6 +38,8 @@ ATPSPlayer::ATPSPlayer()
 		tpsCamComp->bUsePawnControlRotation = false;
 
 		bUseControllerRotationYaw = true;
+
+		playerMove = CreateDefaultSubobject<UPlayerMove>(TEXT("PlayerMove"));
 	}
 }
 
@@ -70,9 +73,6 @@ void ATPSPlayer::BeginPlay()
 void ATPSPlayer::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-	// 플레이어 이동
-	Move();
 }
 
 // Called to bind functionality to input
@@ -80,52 +80,12 @@ void ATPSPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
-	// 마우스 카메라 회전 이벤트 처리 함수 바인딩
-	PlayerInputComponent->BindAxis(TEXT("Turn"), this, &ATPSPlayer::Turn);
-	PlayerInputComponent->BindAxis(TEXT("LookUp"), this, &ATPSPlayer::LookUp);
+	// 컴포넌트에서 입력 바인딩 처리하도록 호출
+	playerMove->SetupInputBinding(PlayerInputComponent);
 
-	// 좌우 입력 이벤트 처리 함수 바인딩
-	PlayerInputComponent->BindAxis(TEXT("Horizontal"), this, &ATPSPlayer::InputHorizontal);
-	// 상하 입력 이벤트 처리 함수 바인딩
-	PlayerInputComponent->BindAxis(TEXT("Vertical"), this, &ATPSPlayer::InputVertical);
-	// 점프 입력 이벤트 처리 함수 바인딩
-	PlayerInputComponent->BindAction(TEXT("Jump"), IE_Pressed, this, &ATPSPlayer::Jump);
 	// 총알 발사 이벤트 처리 함수 바인딩
 	PlayerInputComponent->BindAction(TEXT("Fire"), IE_Pressed, this, &ATPSPlayer::InputFire);
 
-}
-
-void ATPSPlayer::Turn(float value)
-{
-	AddControllerYawInput(value);
-}
-
-void ATPSPlayer::LookUp(float value)
-{
-	AddControllerPitchInput(value);
-}
-
-void ATPSPlayer::InputHorizontal(float value)
-{
-	direction.Y = value;
-}
-
-void ATPSPlayer::InputVertical(float value)
-{
-	direction.X = value;
-}
-
-void ATPSPlayer::Move()
-{
-	// 플레이어 이동 처리
-	direction = FTransform(GetControlRotation()).TransformVector(direction);
-	AddMovementInput(direction);
-	direction = FVector::ZeroVector;
-}
-
-void ATPSPlayer::InputJump()
-{
-	Jump();
 }
 
 void ATPSPlayer::InputFire()
@@ -142,12 +102,4 @@ void ATPSPlayer::InputFire()
 		bullet->movementComp->Velocity = fireTransform.GetRotation().Vector() * bullet->movementComp->InitialSpeed;
 		bullet->Fire();
 	}
-
-	//if (!bulletFactory)
-	//{
-	//	return;
-	//}
-
-	//FTransform firePosition = GetMesh()->GetSocketTransform(TEXT("FirePosition"));
-	//GetWorld()->SpawnActor<ABullet>(bulletFactory, firePosition);
 }
