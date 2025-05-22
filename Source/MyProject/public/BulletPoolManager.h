@@ -31,7 +31,7 @@ public:
 public:
 	// ÃÑ¾Ë
 	UPROPERTY(EditAnywhere, Category = "Pooling")
-	TSubclassOf<ABullet> bulletFactory;
+	TSubclassOf<ABullet> bulletFactory = nullptr;
 
 	// ÃÑ¾Ë Ç®
 	UPROPERTY()

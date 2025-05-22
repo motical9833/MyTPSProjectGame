@@ -32,13 +32,13 @@ public:
 public:
 	// 이동 컴포넌트
 	UPROPERTY(VisibleAnywhere, Category = "Movement")
-	class UProjectileMovementComponent* movementComp;
+	class UProjectileMovementComponent* movementComp = nullptr;
 	// 충돌 컴포넌트
 	UPROPERTY(VisibleAnywhere, Category = "Collision")
-	class USphereComponent* collisionComp;
+	class USphereComponent* collisionComp = nullptr;
 	// 외관 컴포넌트
 	UPROPERTY(VisibleAnywhere, Category = "BodyMesh")
-	class UStaticMeshComponent* bodyMeshComp;
+	class UStaticMeshComponent* bodyMeshComp = nullptr;
 
 	// 총알 타이머
 	FTimerHandle lifeTimerHandle;

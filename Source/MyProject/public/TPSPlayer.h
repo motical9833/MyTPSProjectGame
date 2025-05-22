@@ -53,10 +53,10 @@ public:
 public:
 	// 카메라 부모 스프링암 컴포넌트
 	UPROPERTY(VisibleAnywhere, Category = "Camera")
-	class USpringArmComponent* springArmComp;
+	class USpringArmComponent* springArmComp = nullptr;
 	// 카메라 컴포넌트
 	UPROPERTY(VisibleAnywhere, Category = "Camera")
-	class UCameraComponent* tpsCamComp;
+	class UCameraComponent* tpsCamComp = nullptr;
 
 	// Move variable
 public:
@@ -64,18 +64,18 @@ public:
 	UPROPERTY(EditAnywhere, Category = "PlayerSetting")
 	float walkSpeed = 600;
 	// 이동 방향
-	FVector direction;
+	FVector direction = FVector::ZeroVector;
 	
 	// Attack variable
 public:
 
 	// 총알
 	UPROPERTY(EditAnywhere, Category = "BulletFactory")
-	TSubclassOf<class ABullet> bulletFactory;
+	TSubclassOf<class ABullet> bulletFactory = nullptr;
 
 	UPROPERTY(EditAnywhere, Category = "BulletPool")
-	class ABulletPoolManager* bulletPoolManager;
+	class ABulletPoolManager* bulletPoolManager = nullptr;
 
 	UPROPERTY(EditAnywhere, Category = "BulletPool")
-	TSubclassOf<class ABulletPoolManager> bulletPoolManagerActor;
+	TSubclassOf<class ABulletPoolManager> bulletPoolManagerActor = nullptr;
 };
