@@ -28,9 +28,6 @@ void ABulletPoolManager::BeginPlay()
 	{
 		ABullet* newBullet = GetWorld()->SpawnActor<ABullet>(bulletFactory, FVector::ZeroVector, FRotator::ZeroRotator);
 		newBullet->InitializeBullet();
-		//newBullet->SetActorEnableCollision(false);
-		//newBullet->SetActorHiddenInGame(true);
-		//newBullet->SetActorTickEnabled(false);
 		bulletPool.Add(newBullet);
 	}
 
@@ -49,9 +46,6 @@ ABullet* ABulletPoolManager::GetBullet()
 	{
 		if (!bullet->IsActorTickEnabled())
 		{
-			//bullet->SetActorHiddenInGame(false);
-			//bullet->SetActorTickEnabled(true);
-			//bullet->SetActorEnableCollision(true);
 			return bullet;
 		}
 	}

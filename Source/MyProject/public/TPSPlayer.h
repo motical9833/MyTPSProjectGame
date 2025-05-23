@@ -28,7 +28,7 @@ public:
 
 	// Attack function
 public:
-	void InputFire();
+	//void InputFire();
 
 
 
@@ -41,19 +41,25 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = "Camera")
 	class UCameraComponent* tpsCamComp = nullptr;
 
-	// Attack variable
+//	// Attack variable
+//public:
+//
+//	// ÃÑ¾Ë
+//	UPROPERTY(EditAnywhere, Category = "BulletFactory")
+//	TSubclassOf<class ABullet> bulletFactory = nullptr;
+//
+//	UPROPERTY(EditAnywhere, Category = "BulletPool")
+//	class ABulletPoolManager* bulletPoolManager = nullptr;
+//
+//	UPROPERTY(EditAnywhere, Category = "BulletPool")
+//	TSubclassOf<class ABulletPoolManager> bulletPoolManagerActor = nullptr;
+
+
 public:
-
-	// ÃÑ¾Ë
-	UPROPERTY(EditAnywhere, Category = "BulletFactory")
-	TSubclassOf<class ABullet> bulletFactory = nullptr;
-
-	UPROPERTY(EditAnywhere, Category = "BulletPool")
-	class ABulletPoolManager* bulletPoolManager = nullptr;
-
-	UPROPERTY(EditAnywhere, Category = "BulletPool")
-	TSubclassOf<class ABulletPoolManager> bulletPoolManagerActor = nullptr;
 
 	UPROPERTY(VisibleAnywhere, Category = "Component")
 	class UPlayerBaseComponent* playerMove = nullptr;
+
+	UPROPERTY(VisibleAnywhere, Category = "Component")
+	class UPlayerBaseComponent* playerAttack = nullptr;
 };
