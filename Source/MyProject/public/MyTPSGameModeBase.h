@@ -16,4 +16,6 @@ class MYPROJECT_API AMyTPSGameModeBase : public AGameModeBase
 	
 public:
 	AMyTPSGameModeBase();
+
+	virtual void BeginPlay() override;
 };

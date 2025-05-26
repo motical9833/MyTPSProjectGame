@@ -9,6 +9,7 @@
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "PlayerMove.h"
 #include "PlayerAttack.h"
+#include "PlayerCamera.h"
 
 // Sets default values
 ATPSPlayer::ATPSPlayer()
@@ -18,7 +19,7 @@ ATPSPlayer::ATPSPlayer()
 
 	playerMove = CreateDefaultSubobject<UPlayerMove>(TEXT("PlayerMove"));
 	playerAttack = CreateDefaultSubobject<UPlayerAttack>(TEXT("PlayerAttack"));
-
+	playerCamera = CreateDefaultSubobject<UPlayerCamera>(TEXT("PlayerCamera"));
 	// 1.스켈레탈 메쉬 불러오기
 	ConstructorHelpers::FObjectFinder<USkeletalMesh> tempMesh(TEXT("/Script/Engine.SkeletalMesh'/Game/ParagonWraith/Characters/Heroes/Wraith/Meshes/Wraith.Wraith'"));
 
@@ -28,20 +29,13 @@ ATPSPlayer::ATPSPlayer()
 		// mesh컴포넌트 위치 설정
 		GetMesh()->SetRelativeLocationAndRotation(FVector(0, 0, -90), FRotator(0, -90, 0));
 
-		// 카메라 붙이기
-		// springArm컴포넌트 생성
-		springArmComp = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArmComp"));
-		springArmComp->SetupAttachment(RootComponent);
-		springArmComp->SetRelativeLocation(FVector(0, 70, 90));
-		springArmComp->TargetArmLength = 400;
-		springArmComp->bUsePawnControlRotation = true;
+		playerCamera->springArm->SetupAttachment(RootComponent);
+		playerCamera->springArm->SetRelativeLocation(FVector(0, 70, 90));
+		playerCamera->springArm->TargetArmLength = 400;
+		playerCamera->springArm->bUsePawnControlRotation = true;
 
-		// 카메라 컴포넌트 생성
-		tpsCamComp = CreateDefaultSubobject<UCameraComponent>(TEXT("TpsCamComp"));
-		tpsCamComp->SetupAttachment(springArmComp);
-		tpsCamComp->bUsePawnControlRotation = false;
-
-		bUseControllerRotationYaw = true;
+		playerCamera->tpsCamera->SetupAttachment(playerCamera->springArm);
+		playerCamera->tpsCamera->bUsePawnControlRotation = false;
 	}
 }
 
@@ -49,26 +43,6 @@ ATPSPlayer::ATPSPlayer()
 void ATPSPlayer::BeginPlay()
 {
 	Super::BeginPlay();
-
-	//if (!bulletPoolManager && bulletPoolManagerActor)
-	//{
-	//	FTransform spawnTransform = FTransform::Identity;
-	//	FActorSpawnParameters spawnParams;
-	//	spawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-
-	//	// bulletPoolManagerActor로부터 실제 액터 생성
-	//	bulletPoolManager = GetWorld()->SpawnActor<ABulletPoolManager>(
-	//		bulletPoolManagerActor,
-	//		spawnTransform,
-	//		spawnParams
-	//	);
-
-	//	if (bulletPoolManager && bulletFactory)
-	//	{
-	//		// 총알 팩토리 설정
-	//		bulletPoolManager->bulletFactory = bulletFactory;
-	//	}
-	//}
 }
 
 // Called every frame
@@ -86,24 +60,4 @@ void ATPSPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 	playerMove->SetupInputBinding(PlayerInputComponent);
 	// 공격 컴포넌트에서 입력 바인딩 처리하도록 호출
 	playerAttack->SetupInputBinding(PlayerInputComponent);
-
-	// 총알 발사 이벤트 처리 함수 바인딩
-	//PlayerInputComponent->BindAction(TEXT("Fire"), IE_Pressed, this, &ATPSPlayer::InputFire);
-
 }
-
-//void ATPSPlayer::InputFire()
-//{
-//	if (!bulletPoolManager)
-//		return;
-//
-//	FTransform fireTransform = GetMesh()->GetSocketTransform(TEXT("FirePosition"));
-//	ABullet* bullet = bulletPoolManager->GetBullet();
-//
-//	if (bullet)
-//	{
-//		bullet->SetActorTransform(fireTransform);
-//		bullet->movementComp->Velocity = fireTransform.GetRotation().Vector() * bullet->movementComp->InitialSpeed;
-//		bullet->Fire();
-//	}
-//}

@@ -4,39 +4,25 @@
 #include "PlayerAttack.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "BulletPoolManager.h"
+#include "Kismet/GameplayStatics.h"
+#include "GameManagerSubsystem.h"
 
 UPlayerAttack::UPlayerAttack()
 {
 	// Tcik 함수가 호출되도록 처리
 	PrimaryComponentTick.bCanEverTick = false;
-
-
 }
 
 void UPlayerAttack::BeginPlay()
 {
 	Super::BeginPlay();
 
-	if (!bulletPoolManager && bulletPoolManagerActor)
+	// bulletPoolManager 가져오기
+	UGameManagerSubsystem* manager = GetWorld()->GetGameInstance()->GetSubsystem<UGameManagerSubsystem>();
+	if (manager)
 	{
-		FTransform spawnTransform = FTransform::Identity;
-		FActorSpawnParameters spawnParams;
-		spawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-
-		// bulletPoolManagerActor로부터 실제 액터 생성
-		bulletPoolManager = GetWorld()->SpawnActor<ABulletPoolManager>(
-			bulletPoolManagerActor,
-			spawnTransform,
-			spawnParams
-		);
-
-		if (bulletPoolManager && bulletFactory)
-		{
-			// 총알 팩토리 설정
-			bulletPoolManager->bulletFactory = bulletFactory;
-		}
+		bulletPoolManager = manager->GetBulletManager();
 	}
-
 }
 
 void UPlayerAttack::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)

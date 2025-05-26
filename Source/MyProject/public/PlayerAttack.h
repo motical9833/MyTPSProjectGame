@@ -38,10 +38,4 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = "BulletPool")
 	class ABulletPoolManager* bulletPoolManager = nullptr;
-
-	UPROPERTY(EditAnywhere, Category = "BulletPool")
-	TSubclassOf<class ABulletPoolManager> bulletPoolManagerActor = nullptr;
-
-	UPROPERTY(VisibleAnywhere, Category = "Component")
-	class UPlayerBaseComponent* playerMove = nullptr;
 };
