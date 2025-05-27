@@ -23,8 +23,9 @@ public:
 
 	USpringArmComponent* GetSpringArm() { return springArm; }
 	UCameraComponent* GetCamera() { return tpsCamera; }
+	void CameraInitialize(class USceneComponent* InParent, FVector RelativeLocation, float TargetArmLength);
 
-public:
+private:
 	UPROPERTY(VisibleAnywhere, Category = "Camera")
 	class USpringArmComponent* springArm;
 

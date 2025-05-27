@@ -17,9 +17,6 @@ ATPSPlayer::ATPSPlayer()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	playerMove = CreateDefaultSubobject<UPlayerMove>(TEXT("PlayerMove"));
-	playerAttack = CreateDefaultSubobject<UPlayerAttack>(TEXT("PlayerAttack"));
-	playerCamera = CreateDefaultSubobject<UPlayerCamera>(TEXT("PlayerCamera"));
 	// 1.스켈레탈 메쉬 불러오기
 	ConstructorHelpers::FObjectFinder<USkeletalMesh> tempMesh(TEXT("/Script/Engine.SkeletalMesh'/Game/ParagonWraith/Characters/Heroes/Wraith/Meshes/Wraith.Wraith'"));
 
@@ -28,15 +25,14 @@ ATPSPlayer::ATPSPlayer()
 		GetMesh()->SetSkeletalMesh(tempMesh.Object);
 		// mesh컴포넌트 위치 설정
 		GetMesh()->SetRelativeLocationAndRotation(FVector(0, 0, -90), FRotator(0, -90, 0));
-
-		playerCamera->springArm->SetupAttachment(RootComponent);
-		playerCamera->springArm->SetRelativeLocation(FVector(0, 70, 90));
-		playerCamera->springArm->TargetArmLength = 400;
-		playerCamera->springArm->bUsePawnControlRotation = true;
-
-		playerCamera->tpsCamera->SetupAttachment(playerCamera->springArm);
-		playerCamera->tpsCamera->bUsePawnControlRotation = false;
 	}
+
+	playerMove = CreateDefaultSubobject<UPlayerMove>(TEXT("PlayerMove"));
+	playerAttack = CreateDefaultSubobject<UPlayerAttack>(TEXT("PlayerAttack"));
+	playerCamera = CreateDefaultSubobject<UPlayerCamera>(TEXT("PlayerCamera"));
+
+	if(playerCamera)
+	playerCamera->CameraInitialize(RootComponent, FVector(0, 70, 90), 400);
 }
 
 // Called when the game starts or when spawned
