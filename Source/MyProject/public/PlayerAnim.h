@@ -18,6 +18,11 @@ public:
 	// 매 프레임 갱신되는 함수
 	virtual void NativeUpdateAnimation(float DeltaSeconds) override;
 
+	void SetShootingReady(bool isShooting)
+	{
+		isShootingReady = isShooting;
+	}
+
 	// 플레이어 애니메이션 변수
 public:
 
@@ -30,4 +35,12 @@ public:
 	// 플레이어가 공중에 있는지 여부
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "PlayerAnim")
 	bool isinAir = false;
+
+	// 사격 준비 자세 인지 아닌지
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayerAnim")
+	bool isShootingReady = false;
+
+	// 저격총 모드 인지 아닌지
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "PlayerAnim")
+	bool isSniperMode = false;
 };

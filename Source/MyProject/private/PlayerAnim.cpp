@@ -27,7 +27,6 @@ void UPlayerAnim::NativeUpdateAnimation(float DeltaSeconds)
 		// 좌우 속도 할당하기
 		FVector rightVector = player->GetActorRightVector();
 		direction = FVector::DotProduct(rightVector, velocity);
-
 		// 플레이어가 현재 공중에 있는지 여부 체크
 		auto movement = player->GetCharacterMovement();
 		isinAir = movement->IsFalling();

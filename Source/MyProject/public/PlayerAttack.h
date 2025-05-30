@@ -13,8 +13,6 @@ UCLASS()
 class MYPROJECT_API UPlayerAttack : public UPlayerBaseComponent
 {
 	GENERATED_BODY()
-	
-
 public:
 	UPlayerAttack();
 
@@ -25,9 +23,21 @@ public:
 	virtual void SetupInputBinding(class UInputComponent* PlayerInputComponent) override;
 
 	// Attack function
-public:
+private:
 	void NomalAttack();
+	void SniperAttack();
+	// 스나이퍼 모드로 전환
+	void ChangeToSniperMode();
+	// 기본 총으로 전환
+	void ChangeToGunMode();
+	// 사격 준비 상태 전환
+	void StartShootingMode();
+	// 사격 종료 상태 전환
+	void EndShootingMode();
 
+public:
+
+	bool GetShootingMode() { return bReadyShootingMode; }
 
 	// Attack variable
 public:
@@ -38,4 +48,13 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = "BulletPool")
 	class ABulletPoolManager* bulletPoolManager = nullptr;
+
+	// 스나이퍼 모드인지 아닌지
+	bool bUsingSniperMode = false;
+
+	// 공격 준비 상태인지 아닌지
+	bool bReadyShootingMode = false;
+
+	UPROPERTY()
+	class UPlayerAnim* mePlayerAnim = nullptr;
 };

@@ -6,6 +6,7 @@
 #include "BulletPoolManager.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameManagerSubsystem.h"
+#include "PlayerAnim.h"
 
 UPlayerAttack::UPlayerAttack()
 {
@@ -23,18 +24,20 @@ void UPlayerAttack::BeginPlay()
 	{
 		bulletPoolManager = manager->GetBulletManager();
 	}
+
+	 mePlayerAnim = Cast<UPlayerAnim>(me->GetMesh()->GetAnimInstance());
 }
 
 void UPlayerAttack::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-
 }
 
 void UPlayerAttack::SetupInputBinding(UInputComponent* PlayerInputComponent)
 {
 	PlayerInputComponent->BindAction(TEXT("Fire"), IE_Pressed, this, &UPlayerAttack::NomalAttack);
+	PlayerInputComponent->BindAction(TEXT("ShootingMode"), IE_Pressed, this, &UPlayerAttack::StartShootingMode);
+	PlayerInputComponent->BindAction(TEXT("ShootingMode"), IE_Released, this, &UPlayerAttack::EndShootingMode);
 }
 
 void UPlayerAttack::NomalAttack()
@@ -50,5 +53,41 @@ void UPlayerAttack::NomalAttack()
 		bullet->SetActorTransform(fireTransform);
 		bullet->movementComp->Velocity = fireTransform.GetRotation().Vector() * bullet->movementComp->InitialSpeed;
 		bullet->Fire();
+	}
+}
+
+void UPlayerAttack::SniperAttack()
+{
+	if (!bulletPoolManager)
+		return;
+}
+
+void UPlayerAttack::ChangeToSniperMode()
+{
+
+}
+
+void UPlayerAttack::ChangeToGunMode()
+{
+
+}
+
+void UPlayerAttack::StartShootingMode()
+{
+	bReadyShootingMode = true;
+
+	if (mePlayerAnim)
+	{
+		mePlayerAnim->SetShootingReady(true);
+	}
+}
+
+void UPlayerAttack::EndShootingMode()
+{
+	bReadyShootingMode = false;
+
+	if (mePlayerAnim)
+	{
+		mePlayerAnim->SetShootingReady(false);
 	}
 }
