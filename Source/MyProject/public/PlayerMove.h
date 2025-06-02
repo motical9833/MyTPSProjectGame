@@ -38,6 +38,8 @@ public:
 	// 점프 입력 이벤트 처리 함수
 	void InputJump();
 
+	FVector GetDirection() { return direction; }
+
 public:
 	// 이동 속도
 	UPROPERTY(EditAnywhere, Category = "PlayerSetting")

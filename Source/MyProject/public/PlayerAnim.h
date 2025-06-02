@@ -32,14 +32,17 @@ public:
 	// 플레이어 좌우 이동 속도
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "PlayerAnim")
 	float direction = 0;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "PlayerAnim")
+	float pitch = 0;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayerAnim")
+	float yaw = 0;
+
 	// 플레이어가 공중에 있는지 여부
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "PlayerAnim")
 	bool isinAir = false;
-
 	// 사격 준비 자세 인지 아닌지
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayerAnim")
 	bool isShootingReady = false;
-
 	// 저격총 모드 인지 아닌지
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "PlayerAnim")
 	bool isSniperMode = false;

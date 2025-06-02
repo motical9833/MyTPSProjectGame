@@ -4,6 +4,7 @@
 #include "PlayerAnim.h"
 #include "TPSPlayer.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "MyProject.h"
 
 void UPlayerAnim::NativeUpdateAnimation(float DeltaSeconds)
 {
@@ -30,5 +31,12 @@ void UPlayerAnim::NativeUpdateAnimation(float DeltaSeconds)
 		// 플레이어가 현재 공중에 있는지 여부 체크
 		auto movement = player->GetCharacterMovement();
 		isinAir = movement->IsFalling();
+
+		// 플레이어가 바라보는 각도 구하기
+		FRotator aimRotation = player->GetBaseAimRotation();
+		FRotator movementRotation = player->GetActorRotation();
+		FRotator deltarot = (aimRotation - movementRotation).GetNormalized();
+		pitch = deltarot.Pitch;
+		yaw = deltarot.Yaw;
 	}
 }
