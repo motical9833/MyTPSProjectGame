@@ -34,7 +34,8 @@ private:
 	void StartShootingMode();
 	// 사격 종료 상태 전환
 	void EndShootingMode();
-
+	// 스나이퍼 조준
+	void SniperAim();
 public:
 
 	bool GetShootingMode() { return bReadyShootingMode; }

@@ -23,6 +23,11 @@ public:
 		isShootingReady = isShooting;
 	}
 
+	void SetSniperModeReady(bool isSniper)
+	{
+		isSniperMode = isSniper;
+	}
+
 	// 플레이어 애니메이션 변수
 public:
 

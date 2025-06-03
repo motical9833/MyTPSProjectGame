@@ -26,6 +26,8 @@ void UPlayerAttack::BeginPlay()
 	}
 
 	 mePlayerAnim = Cast<UPlayerAnim>(me->GetMesh()->GetAnimInstance());
+
+	 ChangeToGunMode();
 }
 
 void UPlayerAttack::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
@@ -36,13 +38,21 @@ void UPlayerAttack::TickComponent(float DeltaTime, ELevelTick TickType, FActorCo
 void UPlayerAttack::SetupInputBinding(UInputComponent* PlayerInputComponent)
 {
 	PlayerInputComponent->BindAction(TEXT("Fire"), IE_Pressed, this, &UPlayerAttack::NomalAttack);
+
+	PlayerInputComponent->BindAction(TEXT("RifleGun"), IE_Pressed, this, &UPlayerAttack::ChangeToGunMode);
+	PlayerInputComponent->BindAction(TEXT("SniperGun"), IE_Pressed, this, &UPlayerAttack::ChangeToSniperMode);
+
 	PlayerInputComponent->BindAction(TEXT("ShootingMode"), IE_Pressed, this, &UPlayerAttack::StartShootingMode);
 	PlayerInputComponent->BindAction(TEXT("ShootingMode"), IE_Released, this, &UPlayerAttack::EndShootingMode);
+
 }
 
 void UPlayerAttack::NomalAttack()
 {
-	if (!bulletPoolManager)
+	if (!bReadyShootingMode)
+		return;
+
+	if (bUsingSniperMode || !bulletPoolManager)
 		return;
 
 	FTransform fireTransform = me->GetMesh()->GetSocketTransform(TEXT("FirePosition"));
@@ -64,12 +74,22 @@ void UPlayerAttack::SniperAttack()
 
 void UPlayerAttack::ChangeToSniperMode()
 {
+	bUsingSniperMode = true;
 
+	if (mePlayerAnim)
+	{
+		mePlayerAnim->SetSniperModeReady(true);
+	}
 }
 
 void UPlayerAttack::ChangeToGunMode()
 {
+	bUsingSniperMode = false;
 
+	if (mePlayerAnim)
+	{
+		mePlayerAnim->SetSniperModeReady(false);
+	}
 }
 
 void UPlayerAttack::StartShootingMode()
@@ -90,4 +110,9 @@ void UPlayerAttack::EndShootingMode()
 	{
 		mePlayerAnim->SetShootingReady(false);
 	}
+}
+
+void UPlayerAttack::SniperAim()
+{
+
 }
