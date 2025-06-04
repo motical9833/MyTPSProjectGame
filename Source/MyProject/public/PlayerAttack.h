@@ -22,6 +22,7 @@ public:
 
 	virtual void SetupInputBinding(class UInputComponent* PlayerInputComponent) override;
 
+	class UCameraComponent;
 	// Attack function
 private:
 	void NomalAttack();
@@ -58,4 +59,8 @@ public:
 
 	UPROPERTY()
 	class UPlayerAnim* mePlayerAnim = nullptr;
+
+	// ÃÑ¾Ë ÆÄÆí ÀÌÆåÆ®
+	UPROPERTY(EditAnywhere, Category = "BulletEffect")
+	class UParticleSystem* bulletEffectFactory;
 };
