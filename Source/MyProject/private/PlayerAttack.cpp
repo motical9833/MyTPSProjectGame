@@ -51,7 +51,7 @@ void UPlayerAttack::SetupInputBinding(UInputComponent* PlayerInputComponent)
 
 void UPlayerAttack::NomalAttack()
 {
-	if (!bReadyShootingMode || !bulletPoolManager)
+	if (!bReadyShootingMode || !bulletPoolManager || me->GetCharacterMovement()->IsFalling())
 		return;
 
 	if (!bUsingSniperMode)
