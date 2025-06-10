@@ -38,7 +38,5 @@ void UPlayerAnim::NativeUpdateAnimation(float DeltaSeconds)
 		FRotator deltarot = (aimRotation - movementRotation).GetNormalized();
 		pitch = deltarot.Pitch;
 		yaw = deltarot.Yaw;
-
-
 	}
 }

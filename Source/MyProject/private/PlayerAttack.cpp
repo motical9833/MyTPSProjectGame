@@ -8,7 +8,7 @@
 #include "GameManagerSubsystem.h"
 #include "PlayerAnim.h"
 #include "PlayerCamera.h"
-#include "Kismet/GameplayStatics.h"
+#include "EnemyMainFSM.h"
 
 UPlayerAttack::UPlayerAttack()
 {
@@ -92,6 +92,15 @@ void UPlayerAttack::NomalAttack()
 			bulletTrans.SetLocation(hitInfo.ImpactPoint);
 			// 총알 파편 효과 인스턴스 생성
 			UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), bulletEffectFactory, bulletTrans);
+
+
+			// 부딪힌 대상이 적인지 확인
+			auto enemy = hitInfo.GetActor()->GetDefaultSubobjectByName(TEXT("FSM"));
+			if (enemy)
+			{
+				auto enemyFSM = Cast<UEnemyMainFSM>(enemy);
+				enemyFSM->OnDamageProcess();
+			}
 		}
 	}
 }
