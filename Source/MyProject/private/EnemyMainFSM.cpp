@@ -6,6 +6,7 @@
 #include "Enemy.h"
 #include "Kismet/GameplayStatics.h"
 #include "MyProject.h"
+#include "Components/CapsuleComponent.h"
 
 // Sets default values for this component's properties
 UEnemyMainFSM::UEnemyMainFSM()
@@ -170,5 +171,7 @@ void UEnemyMainFSM::OnDamageProcess()
 	{
 		// 상태를 죽음으로 전환
 		mState = EEnemyState::Die;
+		// 캡슐 콜라이더 비활성화
+		me->GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	}
 }
