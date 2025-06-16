@@ -12,7 +12,7 @@ AEnemy::AEnemy()
 
 
 	// 스켈레탈메시 데이터 로드
-	ConstructorHelpers::FObjectFinder<USkeletalMesh> tempMesh(TEXT("/Script/Engine.SkeletalMesh'/Game/Characters/Mannequin_UE4/Meshes/SK_Mannequin.SK_Mannequin'"));
+	ConstructorHelpers::FObjectFinder<USkeletalMesh> tempMesh(TEXT("/Script/Engine.SkeletalMesh'/Game/ParagonMinions/Characters/Minions/White_Camp_Minion/Meshes/Minion_melee.Minion_melee'"));
 
 	if (!tempMesh.Succeeded())
 	{
@@ -24,6 +24,14 @@ AEnemy::AEnemy()
 
 	// EnemyMainFSM 추가
 	fsm = CreateDefaultSubobject<UEnemyMainFSM>(TEXT("FSM"));
+
+	// 애니메이션 블루프린트 할당
+	ConstructorHelpers::FClassFinder<UAnimInstance> tempClass(TEXT("/Game/Blueprints/ABP_Enemy.ABP_Enemy_C"));
+
+	if (tempClass.Succeeded())
+	{
+		GetMesh()->SetAnimInstanceClass(tempClass.Class);
+	}
 }
 
 // Called when the game starts or when spawned

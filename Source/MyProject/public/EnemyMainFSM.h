@@ -96,4 +96,9 @@ public:
 	// 아래로 사라지는 속도
 	UPROPERTY(EditAnywhere, Category = "FSM")
 	float dieSpeed = 50.0f;
+
+	// Anim 변수
+public:
+	UPROPERTY()
+	class UEnemyAnim* anim;
 };
