@@ -163,6 +163,11 @@ void UEnemyMainFSM::DieState()
 {
 	PRINT_LOG(TEXT("DIE!!!"));
 
+	if (anim->bDieDone == false)
+	{
+		return;
+	}
+
 	// 시체가 아래로 사라지도록 구현
 	// 등속 운동
 	FVector p0 = me->GetActorLocation();
@@ -189,6 +194,12 @@ void UEnemyMainFSM::OnDamageProcess()
 	{
 		// 상태를 피격으로 전환
 		mState = EEnemyState::Damage;
+		currentTime = 0;
+
+		// 피격 애니메이션 재생
+		int32 index = FMath::RandRange(0, 1);
+		FString sectionName = FString::Printf(TEXT("Damage%d"), index);
+		anim->PlayDamageAnim(FName(*sectionName));
 	}
 	else
 	{
@@ -196,5 +207,7 @@ void UEnemyMainFSM::OnDamageProcess()
 		mState = EEnemyState::Die;
 		// 캡슐 콜라이더 비활성화
 		me->GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		// 죽음 애니메이션 재생
+		anim->PlayDamageAnim(TEXT("Die"));
 	}
 }

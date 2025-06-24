@@ -86,7 +86,7 @@ public:
 public:
 	// 체력 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "FSM")
-	int32 hp = 3;
+	int32 hp = 100;
 	// 피격 딜레이 시간
 	float damageDelayTime = 2.0f;
 
